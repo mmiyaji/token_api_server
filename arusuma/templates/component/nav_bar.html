@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+  <a class="navbar-brand" href="/">Arusuma</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <!-- <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard/">Dashboard</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">アカウント</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          {% if not user.is_anonymous %}
+          <!-- <a class="dropdown-item"  href="/group/">グループ管理</a> -->
+          <a class="dropdown-item"  href="/admin/">管理者専用ページ</a>
+          {% endif %}
+          {% if user.is_anonymous %}
+            <a class="dropdown-item"  href="/login/">ログイン</a>{% else %}
+            <a class="dropdown-item"  href="/login/">ログアウト【{{ user }}】</a>
+        {% endif %}
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

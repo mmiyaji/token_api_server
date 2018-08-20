@@ -54,7 +54,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+*.sqlite3
 
 # Flask stuff:
 instance/
@@ -102,3 +102,19 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+*.pyc
+*.db
+*.svn*
+*.#*
+.DS_Store
+freeze/*
+*secretkey.txt
+.#*%
+media/tmp/*
+media/archives/download/*
+media/archives/thumbs/*
+media/archives/originals/*
+!.gitkeep
+settings_local.py
+settings_deploy.py
