@@ -10,8 +10,8 @@ from .views import *
 app_name = 'arusuma'
 urlpatterns = [
     url(r'^$', views.home, name='home'),
-    url(r'^login/$', views.login_view, name='login'),
-    url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^login$', views.login_view, name='login'),
+    url(r'^dashboard$', views.dashboard, name='dashboard'),
     # url(r'^server/$', server.home, name='server_home'),
     # url(r'^server/(?P<target_uuid>\w{32})/$', server.detail, name='server_detail'),
     # url(r'^config/$', config.home, name='config_home'),
@@ -21,11 +21,16 @@ urlpatterns = [
     url(r'^jwt-token', obtain_jwt_token),
     url(r'^ping', views.PingViewSet.as_view()),
 
-    url(r'^token/$', views.token_login, name='token_login'),
-    url(r'^token/refresh/$', views.token_refresh, name='token_refresh'),
-    url(r'^token/users/$', views.token_get_users, name='token_get_users'),
-    url(r'^token/redirect/$', views.token_login_redirect, name='token_login_redirect'),
+    url(r'^token$', views.token_login, name='token_login'),
+    url(r'^token/refresh$', views.token_refresh, name='token_refresh'),
+    url(r'^token/user$', views.token_get_user, name='token_get_user'),
+    url(r'^token/users$', views.token_get_users, name='token_get_users'),
+    url(r'^token/contracts$', views.token_get_users, name='token_get_contracts'),
+    url(r'^token/devices$', views.token_get_users, name='token_get_devices'),
+    url(r'^token/redirect$', views.token_login_redirect, name='token_login_redirect'),
     # url(r'^register/$', AuthRegister.as_view()),
+    url(r'^token/devices/add$', views.device_add, name='device_add'),
+    url(r'^token/devices/update$', views.device_add, name='device_add'),
 
     # ONLY POST METHOD
     url(r'^signup/$', views.signup_view, name='signup'),

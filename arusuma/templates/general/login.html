@@ -11,7 +11,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form accept-charset="utf-8" role="form" action="/login/" method="post">
+                        <form accept-charset="utf-8" role="form" action="/login" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.GET.next|default:'/' }}" />
                             <fieldset>
@@ -35,7 +35,7 @@
                         </button>
                         <div {% if "signup_failed" in error_list %}class="collapsed"{% else%}class="collapse"{% endif %} id="collapseSignup">
                             <div class="well">
-                                <form class="" accept-charset="utf-8" role="form" action="/login/" method="post">
+                                <form class="" accept-charset="utf-8" role="form" action="/login" method="post">
                                     {% csrf_token %}
                                     <fieldset>
                                         <!-- <div class="form-group">

@@ -105,13 +105,13 @@ def token_login(request):
             email = params["email"]
             password = params["password"]
             uuid  = params["devid"]
-            req = "OK"
+            req = "OK JSON"
     except:
         if request.POST:
             email = request.POST['email']
             password = request.POST['password']
             uuid = request.POST['devid']
-            req = "OK"
+            req = "OK POST BODY"
     if req:
         print email
         print password
@@ -153,7 +153,59 @@ def token_refresh(request):
                 "refresh_token":at.refresh_token,
                 "expired_at":at.expired_at,
             }
-    return JsonResponse(temp_values)
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+@csrf_exempt
+def device_add(request):
+    token = ""
+    temp_values = {
+        "message":"faild"
+    }
+    # print access_token
+    params = json.loads(request.body.decode())
+    print params
+    # if params:
+    #     access_token = params["auth"]
+    #     device_token = params["token"]
+    #     devid = params["devid"]
+
+    # devid = request.POST['devid']
+    # access_token = request.POST['token']
+    # device_token = request.POST['device_token']
+    access_token = params["auth"]
+    device_token = params["token"]
+    devid = params["devid"]
+
+    if access_token:
+        at = AccessToken.get_by_access_token(access_token)
+        print at
+        nd = timezone.now()
+        print nd
+        print at.expired_at
+        if at.expired_at < nd:
+            temp_values = {
+                "message":"token has been expired.",
+            }
+        else:
+            user = at.device.user
+            at.device.uuid = devid
+            at.device.token = device_token
+            at.device.save()
+            at.save()
+            temp_values = {
+                "user":at.device.user.email,
+            }
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
 
 @csrf_exempt
 def token_get_users(request):
@@ -179,7 +231,146 @@ def token_get_users(request):
             temp_values = {
                 "user":at.device.user.email,
             }
-    return JsonResponse(temp_values)
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+@csrf_exempt
+def token_get_user(request):
+    token = ""
+    temp_values = {
+        "message":"faild"
+    }
+    access_token = request.META['HTTP_AUTHORIZATION']
+    print access_token
+    # refresh_token = request.POST['token']
+    if access_token:
+        at = AccessToken.get_by_access_token(access_token)
+        print at
+        # nd = datetime.datetime.now()
+        nd = timezone.now()
+        print nd
+        print at.expired_at
+        if at.expired_at < nd:
+            temp_values = {
+                "message":"token has been expired.",
+            }
+        else:
+            temp_values = {
+                "user":at.device.user.email,
+            }
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+@csrf_exempt
+def token_get_contracts(request):
+    token = ""
+    temp_values = {
+        "message":"faild"
+    }
+    access_token = request.META['HTTP_AUTHORIZATION']
+    print access_token
+    # refresh_token = request.POST['token']
+    if access_token:
+        at = AccessToken.get_by_access_token(access_token)
+        print at
+        # nd = datetime.datetime.now()
+        nd = timezone.now()
+        print nd
+        print at.expired_at
+        if at.expired_at < nd:
+            temp_values = {
+                "message":"token has been expired.",
+            }
+        else:
+            temp_values = {
+                "user":at.device.user.email,
+            }
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+@csrf_exempt
+def token_get_devices(request):
+    token = ""
+    temp_values = {
+        "message":"faild"
+    }
+    access_token = request.META['HTTP_AUTHORIZATION']
+    print access_token
+    # refresh_token = request.POST['token']
+    if access_token:
+        at = AccessToken.get_by_access_token(access_token)
+        print at
+        # nd = datetime.datetime.now()
+        nd = timezone.now()
+        print nd
+        print at.expired_at
+        if at.expired_at < nd:
+            temp_values = {
+                "message":"token has been expired.",
+            }
+        else:
+            temp_values = {
+                "user":at.device.user.email,
+            }
+    response = JsonResponse(temp_values)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+# @csrf_exempt
+# def device_add(request):
+#     token = ""
+#     temp_values = {
+#         "message":"faild"
+#     }
+#     print request.META
+#     try:
+#         access_token = request.META['HTTP_AUTHORIZATION']
+#     except:
+#         params = json.loads(request.body.decode())
+#         print params
+#         if params:
+#             access_token = params["auth"]
+#             device_token = params["token"]
+#             devid = params["devid"]
+#     print access_token
+#     # refresh_token = request.POST['token']
+#     if access_token:
+#         at = AccessToken.get_by_access_token(access_token)
+#         print at
+#         # nd = datetime.datetime.now()
+#         nd = timezone.now()
+#         print nd
+#         print at.expired_at
+#         if at.expired_at < nd:
+#             temp_values = {
+#                 "message":"token has been expired.",
+#             }
+#         else:
+#             d = Device.get_or_create(at.user, devid)
+#             temp_values = {
+#                 "user":at.device.user.email,
+#             }
+#     response = JsonResponse(temp_values)
+#     response["Access-Control-Allow-Origin"] = "*"
+#     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+#     response["Access-Control-Max-Age"] = "1000"
+#     response["Access-Control-Allow-Headers"] = "*"
+#     return response
 
 @csrf_exempt
 def token_login_redirect(request):
