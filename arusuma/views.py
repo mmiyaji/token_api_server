@@ -166,9 +166,14 @@ def device_add(request):
     temp_values = {
         "message":"faild"
     }
+    access_token = ""
     # print access_token
-    params = json.loads(request.body.decode())
-    print params
+    print "device add:", request.body
+    if request.method == 'POST':
+#        print "device add:", request.body
+        print request
+        params = json.loads(request.body.decode())
+        print params
     # if params:
     #     access_token = params["auth"]
     #     device_token = params["token"]
@@ -177,9 +182,9 @@ def device_add(request):
     # devid = request.POST['devid']
     # access_token = request.POST['token']
     # device_token = request.POST['device_token']
-    access_token = params["auth"]
-    device_token = params["token"]
-    devid = params["devid"]
+        access_token = params["auth"]
+        device_token = params["token"]
+        devid = params["devid"]
 
     if access_token:
         at = AccessToken.get_by_access_token(access_token)
