@@ -147,10 +147,10 @@ def api_login(request):
                 "access_token":randomname(256),
             }
     response = JsonResponse(temp_values)
-    # response["Access-Control-Allow-Origin"] = "*"
-    # response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    # response["Access-Control-Max-Age"] = "1000"
-    # response["Access-Control-Allow-Headers"] = "*"
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
     response["Content-Type"] = "application/json; charset=utf-8"
     return response
 
@@ -191,31 +191,16 @@ def S005API(request):
         print ("instance_id: ", instance_id)
         print ("os: ", p_os)
         print ("version : ", p_version)
-        # user = authenticate(email=email, password=password)
-        # if user is not None:
-        #     d = Device.get_or_create(user, uuid)
-        #     at = AccessToken.get_or_create_by_device(d)
-
-        #     temp_values = {
-        #         "user":user.email,
-        #         "email":user.email,
-        #         "access_token":randomname(256),
-        #         "token":at.token,
-        #         "refresh_token":at.refresh_token,
-        #         "expired_at":at.expired_at,
-        #     }
-        #     print temp_values
-        # else:
         temp_values = {
             # "user":email,
             # "access_token":randomname(256),
             'message': 'OK',
         }
     response = JsonResponse(temp_values)
-    # response["Access-Control-Allow-Origin"] = "*"
-    # response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    # response["Access-Control-Max-Age"] = "1000"
-    # response["Access-Control-Allow-Headers"] = "*"
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
     response["Content-Type"] = "application/json; charset=utf-8"
     return response
 
