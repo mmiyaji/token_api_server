@@ -22,7 +22,7 @@ from arusuma.urls import router as arusuma_router
 urlpatterns = [
     url(r'^', include('arusuma.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(arusuma_router.urls)),
+    url(r'^apis/', include(arusuma_router.urls)),
 ]
 
 if settings.DEBUG:

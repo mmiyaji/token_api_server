@@ -90,6 +90,136 @@ def dashboard(request):
     }
     return render(request, 'general/dashboard.html', temp_values)
 
+def randomname(n):
+    random_str = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
+    return random_str
+
+
+@csrf_exempt
+def api_login(request):
+    token = ""
+    temp_values = {
+        "message":"faild"
+    }
+    # print request.query_params
+    req = ""
+    try:
+        params = json.loads(request.body.decode())
+        print (params)
+        if request.META.has_key("CONTENT_TYPE"):
+            print ("CONTENT_TYPE: ", request.META['CONTENT_TYPE'])
+        if request.META.has_key("HTTP_AUTHORIZATION"):
+            print ("HTTP_AUTHORIZATION: ", request.META['HTTP_AUTHORIZATION'])
+        if request.META.has_key("Authorization"):
+             print ("Authorization: ", request.META['Authorization'])
+        if params:
+            email = params["email"]
+            password = params["password"]
+            uuid  = params["InstanceID"]
+            req = "OK JSON"
+    except:
+        if request.POST:
+            email = request.POST['email']
+            password = request.POST['password']
+            uuid = request.POST['InstanceID']
+            req = "OK POST BODY"
+    if req:
+        print ("email: ", email)
+        print ("password: ", password)
+        print ("uuid: ", uuid)
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            d = Device.get_or_create(user, uuid)
+            at = AccessToken.get_or_create_by_device(d)
+
+            temp_values = {
+                "user":user.email,
+                "email":user.email,
+                "access_token":randomname(256),
+                "token":at.token,
+                "refresh_token":at.refresh_token,
+                "expired_at":at.expired_at,
+            }
+            print temp_values
+        else:
+            temp_values = {
+                "user":email,
+                "access_token":randomname(256),
+            }
+    response = JsonResponse(temp_values)
+    # response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    # response["Access-Control-Max-Age"] = "1000"
+    # response["Access-Control-Allow-Headers"] = "*"
+    response["Content-Type"] = "application/json; charset=utf-8"
+    return response
+
+@csrf_exempt
+def S005API(request):
+    device_token = ""
+    instance_id = ""
+    p_os = ""
+    p_version = ""
+    temp_values = {
+        "message":"faild"
+    }
+    req = ""
+    try:
+        params = json.loads(request.body.decode())
+        print (params)
+        if request.META.has_key("CONTENT_TYPE"):
+            print ("CONTENT_TYPE: ", request.META['CONTENT_TYPE'])
+        if request.META.has_key("HTTP_AUTHORIZATION"):
+            print ("HTTP_AUTHORIZATION: ", request.META['HTTP_AUTHORIZATION'])
+        if request.META.has_key("Authorization"):
+             print ("Authorization: ", request.META['Authorization'])
+        if params:
+            device_token = params["device_token"]
+            p_os = params["OS"]
+            p_version = params["OS"]
+            instance_id  = params["InstanceID"]
+            req = "OK JSON"
+    except:
+        if request.POST:
+            device_token = request.POST["device_token"]
+            p_os = request.POST["OS"]
+            p_version = request.POST["OS"]
+            instance_id  = request.POST["InstanceID"]
+            req = "OK POST BODY"
+    if req:
+        print ("device_token: ", device_token)
+        print ("instance_id: ", instance_id)
+        print ("os: ", p_os)
+        print ("version : ", p_version)
+        # user = authenticate(email=email, password=password)
+        # if user is not None:
+        #     d = Device.get_or_create(user, uuid)
+        #     at = AccessToken.get_or_create_by_device(d)
+
+        #     temp_values = {
+        #         "user":user.email,
+        #         "email":user.email,
+        #         "access_token":randomname(256),
+        #         "token":at.token,
+        #         "refresh_token":at.refresh_token,
+        #         "expired_at":at.expired_at,
+        #     }
+        #     print temp_values
+        # else:
+        temp_values = {
+            # "user":email,
+            # "access_token":randomname(256),
+            'message': 'OK',
+        }
+    response = JsonResponse(temp_values)
+    # response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    # response["Access-Control-Max-Age"] = "1000"
+    # response["Access-Control-Allow-Headers"] = "*"
+    response["Content-Type"] = "application/json; charset=utf-8"
+    return response
+
+
 @csrf_exempt
 def token_login(request):
     token = ""
