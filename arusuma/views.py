@@ -183,7 +183,7 @@ def S005API(request):
         if request.POST:
             device_token = request.POST["device_token"]
             p_os = request.POST["OS"]
-            p_version = request.POST["OS"]
+            p_version = request.POST["version"]
             instance_id  = request.POST["InstanceID"]
             req = "OK POST BODY"
     if req:
