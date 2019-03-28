@@ -102,6 +102,8 @@ def api_login(request):
         "message":"faild"
     }
     # print request.query_params
+    print (request.POST)
+
     req = ""
     try:
         params = json.loads(request.body.decode())
@@ -164,6 +166,7 @@ def S005API(request):
         "message":"faild"
     }
     req = ""
+    print (request.POST)
     try:
         params = json.loads(request.body.decode())
         print (params)
